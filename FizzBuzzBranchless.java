@@ -3,7 +3,7 @@ import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
-public interface BranchlessFooBar {
+public interface FizzBuzzBranchless {
 
     static void main(String... args) {
         IntStream.rangeClosed(1, 100)
@@ -12,19 +12,19 @@ public interface BranchlessFooBar {
     }
 
     static Processor processorFactory() {
-        return new Processor(List.of(
-                new Mapper(divisibleBy(15), n -> "FooBar"),
-                new Mapper(divisibleBy(3), n -> "Foo"),
-                new Mapper(divisibleBy(5), n -> "Bar"),
+        return new Processor(
+                new Mapper(divisibleBy(15), n -> "FizzBuzz"),
+                new Mapper(divisibleBy(3), n -> "Fizz"),
+                new Mapper(divisibleBy(5), n -> "Buzz"),
                 new Mapper(n -> true, Integer::toString)
-        ));
+        );
     }
 
     class Processor implements IntFunction<String> {
         private final List<Mapper> mappers;
 
-        public Processor(List<Mapper> mappers) {
-            this.mappers = mappers;
+        public Processor(Mapper... mappers) {
+            this.mappers = List.of(mappers);
         }
 
         @Override
